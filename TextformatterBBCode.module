@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * ProcessWire BBCode Textformatter
+ *
+ * Uses the NBBC library from http://nbbc.sourceforge.net
+ * NBBC Copyright (C) 2008-10, the Phantom Inker. All rights reserved.
+ *
+ * ProcessWire 2.x 
+ * Copyright (C) 2012 by Ryan Cramer 
+ * Licensed under GNU/GPL v2, see LICENSE.TXT
+ * 
+ * http://www.processwire.com
+ * http://www.ryancramer.com
+ *
+ */
+
+class TextformatterBBCode extends Textformatter {
+
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'BBCode (NBBC)', 
+			'version' => 145, 
+			'summary' => "BBCode Text Formatter using the NBBC Parser.", 
+			'url' => 'http://nbbc.sourceforge.net/',
+		); 
+	}
+
+	public function format(&$str) {
+		$path = $this->config->paths->TextformatterBBCode; 
+		$url = $this->config->urls->TextformatterBBCode; 
+		require_once($path . 'nbbc.php'); 
+		$bbcode = new BBCode();
+		$bbcode->setSmileyDir($path . 'smileys'); 
+		$bbcode->setSmileyURL($url . 'smileys'); 
+		$str = $bbcode->Parse($str); 	
+	}
+}
